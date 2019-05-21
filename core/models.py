@@ -42,6 +42,48 @@ BOOKS = (
     ('4', 'edukacyjne')
 )
 
+NUMBER = (
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
+    ('6', '6'),
+    ('7', '7'),
+    ('8', '8'),
+    ('9', '9'),
+    ('10', '10'),
+    ('11', '>10'),
+)
+
+LOCATION = (
+    ('1', 'dolnośląskie'),
+    ('2', 'kujawsko-pomorskie'),
+    ('3', 'lubelskie'),
+    ('4', 'lubuskie'),
+    ('5', 'łódzkie'),
+    ('6', 'małopolskie'),
+    ('7', 'mazowieckie'),
+    ('8', 'opolskie'),
+    ('9', 'podkarpackie'),
+    ('10', 'podlaskie'),
+    ('11', 'pomorskie'),
+    ('12', 'śląskie'),
+    ('13', 'świętokrzyskie'),
+    ('14', 'warmińsko-mazurskie'),
+    ('15', 'wielkopolskie'),
+    ('16', 'zachodniopomorskie'),
+)
+
+HELP = (
+    ('1', 'dzieciom'),
+    ('2', 'samotnym matkom'),
+    ('3', 'bezdomnym'),
+    ('4', 'niepełnosprawnym'),
+    ('5', 'osobom starszym'),
+    ('6', 'bezrobotnym'),
+)
+
 
 class Clothes(models.Model):
     type = models.CharField(max_length=128, choices=CLOTHES)
@@ -50,3 +92,13 @@ class Clothes(models.Model):
     toys = models.CharField(max_length=128, choices=GENDER)
     books = models.CharField(max_length=128, choices=BOOKS)
     others = models.TextField()
+
+
+class Bags(models.Model):
+    number_of_bugs = models.CharField(max_length=4, choices=NUMBER)
+
+
+class Location(models.Model):
+    location = models.CharField(max_length=50, choices=LOCATION)
+    help = models.CharField(max_length=100, choices=HELP)
+    charity = models.CharField(max_length=255)
