@@ -9,7 +9,13 @@ class LandingPage(View):
         return render(request, 'index.html')
 
 
-class Test(View):
+class LoginView(View):
 
     def get(self, request):
-        return HttpResponse('works')
+        return render(request, 'registration/login.html')
+
+
+class RegisterView(View):
+
+    def get(self, request):
+        return render(request, 'register.html')
