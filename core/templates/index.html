@@ -12,11 +12,11 @@
       <nav class="container container--70">
         <ul class="nav--actions">
             {% if user.is_authenticated %}
-                <li class="btn btn--small btn--without-border" style="color: red">Witaj {{ user.username }}</li>
+                <li class="btn btn--small btn--without-border" style="color: darkorange">Witaj {{ user.username }}</li>
                 <li><a href="{% url 'logout' %}" class="btn btn--small btn--without-border">Wyloguj się</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-                <li><a href="/register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+                <li><a href="{% url 'signup' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
             {% endif %}
         </ul>
 
@@ -28,7 +28,7 @@
           <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
         </ul>
       </nav>
-
+      {% if user.is_authenticated %}
       <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
@@ -43,7 +43,8 @@
         </div>
       </div>
     </header>
-
+{#    {% endif %}#}
+{#    {% if user.is_authenticated %}#}
     <section class="stats">
       <div class="container container--85">
         <div class="stats--item">
@@ -65,6 +66,7 @@
         </div>
       </div>
     </section>
+    {% endif %}
 
     <section class="steps">
       <h2>Wystarczą 4 proste kroki</h2>
@@ -92,7 +94,7 @@
         </div>
       </div>
 
-      <a href="#" class="btn btn--large">Załóż konto</a>
+      <a href="{% url 'signup' %}" class="btn btn--large">Załóż konto</a>
     </section>
 
     <section class="about-us">
