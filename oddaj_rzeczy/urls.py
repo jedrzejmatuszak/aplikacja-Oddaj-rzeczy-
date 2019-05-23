@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import LandingPage, SignUpView, AdminListView, LoginView
+from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdminPermission
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +24,5 @@ urlpatterns = [
     path('signup', SignUpView.as_view(), name='signup'),
     path('admin-list', AdminListView.as_view(), name='admin_list'),
     path('login', LoginView.as_view(), name='login2'),
+    path('set-admin-permission', SetAdminPermission.as_view(), name='set_admin_permission')
 ]

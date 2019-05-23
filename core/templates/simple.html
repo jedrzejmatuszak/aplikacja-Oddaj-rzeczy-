@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  {% load core_extras %}
+  <body>
+     <header>
+          <nav class="container container--70">
+            <ul class="nav--actions">
+                    <li class="logged-user">Witaj {{ user.first_name }}</li>
+                    <li class="dropdown form-group--dropdown">
+                        <li><a href="#" class="btn btn--small btn--without-border">Profil</a></li>
+                        <li><a href="#" class="btn btn--small btn--without-border">Ustawienia</a></li>
+                        <li><a href="#" class="btn btn--small btn--without-border">Moje zbiórki</a></li>
+                        <li><a href="/admin" class="btn btn--small btn--without-border">Panel administratora</a> </li>
+                        <li><a href="{% url 'admin_list' %}" class="btn btn--small btn--without-border">Lista administratorów</a></li>
+                        <li><a href="{% url 'logout' %}" class="btn btn--small btn--without-border">Wyloguj</a></li>
+                    </li>
+            </ul>
+            <ul>
+              <li><a href="{% url 'landing_page' %}" class="btn btn--without-border active">Start</a></li>
+              <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
+              <li><a href="#" class="btn btn--without-border">O nas</a></li>
+              <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
+              <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
+            </ul>
+          </nav>
+     </header>
+  {% block content %}
+  {% endblock %}
+  </body>
+</html>

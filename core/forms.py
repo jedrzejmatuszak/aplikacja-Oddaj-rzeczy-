@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User, Group
 
 
 class LoginForm(forms.Form):
@@ -48,4 +49,11 @@ class SignUpForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={'placeholder': 'Powtórz hasło'}
         )
+    )
+
+
+class SetAdminPermissionForm(forms.Form):
+    user = forms.ModelMultipleChoiceField(
+        queryset=User.objects.filter(groups__name='Użytkownik'),
+        label='Użytkownik',
     )

@@ -1,4 +1,3 @@
-from django import template
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
@@ -7,13 +6,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView, ListView
-from forms import LoginForm, SignUpForm
+from forms import LoginForm, SignUpForm, SetAdminPermissionForm
 
 
 class LandingPage(View):
 
-    def get(self, request):
-        return render(request, 'index.html')
+    def get(self, request):        return render(request, 'index.html')
 
     def post(self, request):
         return HttpResponse()
@@ -81,3 +79,19 @@ class AdminListView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         admins = User.objects.filter(groups__name='Administrator')
         return render(request, 'adminList.html', {'admins': admins})
+
+
+class SetAdminPermission(LoginRequiredMixin, PermissionRequiredMixin, FormView):
+    permission_required = 'User.add_permission'
+    login_url = '/'
+    form_class = SetAdminPermissionForm
+    template_name = 'SetAdminPermission.html'
+
+    def form_valid(self, form):
+        username = form.cleaned_data['user']
+        user = User.objects.get(username=username[0])
+        group_admin = Group.objects.get(name='Administrator')
+        group_admin.user_set.add(user)  # Dodaje obiekt User do grupy administrator
+        if user.groups.filter(name='Użytkownik').exists():
+            Group.objects.get(name='Użytkownik').user_set.remove(user)  # Usuwa obiekt User z grupy użytkownik
+        return redirect('admin_list')
