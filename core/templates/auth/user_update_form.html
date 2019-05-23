@@ -1,0 +1,23 @@
+{% extends 'simple.html' %}
+{% block title %}Edytuj dane administratora{% endblock %}
+{% block content %}
+     <section class="login-page">
+      <h2>Edytuj dane</h2>
+      <form method="post" class="form--contact">
+      {% csrf_token %}
+            <div class="form-group">
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                {{ form.email }}
+            </div>
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'admin_list' %}" class="btn btn--without-border">Powrót</a>
+              <button class="btn" type="submit">Zapisz zminy</button>
+            </div>
+      </form>
+    </section>
+{% endblock %}

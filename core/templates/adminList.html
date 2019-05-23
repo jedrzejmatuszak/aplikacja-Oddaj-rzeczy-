@@ -29,7 +29,7 @@
                         <td>{{ admin.email }}</td>
                         <td>
                             <a href="{% url 'delete_user' pk=admin.pk %}" class="btn btn--without-border">Usuń</a>
-                            <a href="#" class="btn btn--without-border">Modyfikuj</a>
+                            <a href="{% url 'modify_user' pk=admin.pk %}" class="btn btn--without-border">Modyfikuj</a>
                         </td>
                     </tr>
                 {% endfor %}

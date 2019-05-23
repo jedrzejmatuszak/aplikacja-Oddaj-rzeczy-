@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdminPermission, DeleteUserView
+from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdminPermission, DeleteUserView, \
+    ModifyUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('login', LoginView.as_view(), name='login2'),
     path('set-admin-permission', SetAdminPermission.as_view(), name='set_admin_permission'),
     re_path('delete-user/(?P<pk>(\d)+)', DeleteUserView.as_view(), name='delete_user'),
+    re_path('modify-user/(?P<pk>(\d)+)', ModifyUserView.as_view(), name='modify_user'),
 ]

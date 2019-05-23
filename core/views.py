@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, FormView, ListView, DeleteView
+from django.views.generic import CreateView, FormView, ListView, DeleteView, UpdateView
 from forms import LoginForm, SignUpForm, SetAdminPermissionForm
 
 
@@ -74,7 +74,7 @@ class SignUpView(FormView):
 
 class AdminListView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'User.add_permission'
-    login_url = '/'
+    login_url = '/login'
 
     def get(self, request):
         admins = User.objects.filter(groups__name='Administrator')
@@ -99,4 +99,11 @@ class SetAdminPermission(LoginRequiredMixin, PermissionRequiredMixin, FormView):
 
 class DeleteUserView(DeleteView):
     model = User
+    success_url = '/admin-list'
+
+
+class ModifyUserView(UpdateView):
+    model = User
+    fields = ['first_name', 'last_name', 'email']
+    template_name_suffix = '_update_form'
     success_url = '/admin-list'
