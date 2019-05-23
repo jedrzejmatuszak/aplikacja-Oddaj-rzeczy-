@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, FormView, ListView
+from django.views.generic import CreateView, FormView, ListView, DeleteView
 from forms import LoginForm, SignUpForm, SetAdminPermissionForm
 
 
@@ -95,3 +95,8 @@ class SetAdminPermission(LoginRequiredMixin, PermissionRequiredMixin, FormView):
         if user.groups.filter(name='Użytkownik').exists():
             Group.objects.get(name='Użytkownik').user_set.remove(user)  # Usuwa obiekt User z grupy użytkownik
         return redirect('admin_list')
+
+
+class DeleteUserView(DeleteView):
+    model = User
+    success_url = '/admin-list'
