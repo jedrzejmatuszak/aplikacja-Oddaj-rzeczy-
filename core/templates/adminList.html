@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Lista administratorów {% endblock %}
 {% block header %}
-    <h2>Grupa administratorzy: </h2>
-    {% for item in admins %}
-        <li><h2>{{ item.username }}</h2></li>
-    {% endfor %}
-    <br>
+    <div class="slogan--item">
+        <h2>Grupa administratorzy: </h2>
+        {% for item in admins %}
+            <li><h2>{{ item.username }}</h2></li>
+        {% endfor %}
+        <br>
+    </div>
 {% endblock %}
 {% block content %}
-    <h1>Superusers: </h1>
-    {% for item in su %}
-        <li><h2>{{ item.username }}</h2></li>
-    {% endfor %}
+
 {% endblock %}

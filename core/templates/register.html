@@ -47,7 +47,7 @@
             <div class="form-group">
                 {{ form.password2 }}
             </div>
-            {{ msg }}
+            <p style="color:red">{{ msg }}</p>
             <div class="form-group form-group--buttons">
               <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>
               <button class="btn" type="submit">Załóż konto</button>

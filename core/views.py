@@ -1,5 +1,6 @@
+from django import template
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -54,58 +55,29 @@ class SignUpView(FormView):
 
     def form_valid(self, form):
         if form.cleaned_data['password1'] == form.cleaned_data['password2']:
-            User.objects.create_user(
-                username=form.cleaned_data['username'],
-                first_name=form.cleaned_data['first_name'],
-                last_name=form.cleaned_data['last_name'],
-                password=form.cleaned_data['password1'],
-                email=form.cleaned_data['email'],
-            )
-            return redirect('landing_page')
+            try:
+                user = User.objects.create_user(
+                    username=form.cleaned_data['username'],
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    password=form.cleaned_data['password1'],
+                    email=form.cleaned_data['email'],
+                )
+                user_group = Group.objects.get(name='Użytkownik')
+                user_group.user_set.add(user)
+                return redirect('landing_page')
+            except Exception:
+                msg = 'Taki użytkownik już istnieje'
+                return render(self.request, 'register.html', {'form': form, 'msg': msg})
         else:
             msg = 'Hasła są niezgodne'
             return render(self.request, 'register.html', {'form': form, 'msg': msg})
 
-class AdminListView(View):
+
+class AdminListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'User.add_permission'
+    login_url = '/'
 
     def get(self, request):
         admins = User.objects.filter(groups__name='Administrator')
-        su = User.objects.filter(is_superuser=True)
-        return render(request, 'adminList.html', {'admins': admins, 'su': su})
-
-
-
-# class SignUpView(FormView):
-#
-#     template_name = 'register.html'
-#     form_class = CreateUserForm
-#     # success_url = reverse_lazy('user-details')
-#
-#     def form_valid(self, form):
-#         if form.cleaned_data['password1'] != form.cleaned_data['password2']:
-#             return render(self.request, 'register.html', {'msg': 'Hasła się nie zgadzaja', 'form': form})
-#         user = User.objects.create(
-#             username=form.cleaned_data['username'],
-#             password=form.cleaned_data['password1']
-#         )
-#         return redirect(f'signup/details/{user.id}')
-#
-#     def form_invalid(self, form):
-#         return render(self.request, 'register.html', {'msg': 'Niepoprawne dane', 'form': form})
-
-
-# class UserDetails(View):
-#
-#     def get(self, request, pk):
-#         form = UserDetailsForm
-#         return render(request, 'addDetails.html', {'form': form})
-#
-#     def post(self, request, pk):
-#         form = UserDetailsForm(request.POST)
-#         user = User.objects.get(id=pk)
-#         if form.is_valid():
-#             user.first_name = form.cleaned_data['first_name']
-#             user.last_name = form.cleaned_data['last_name']
-#             user.email = form.cleaned_data['email']
-#             user.save()
-#         return redirect('/')
+        return render(request, 'adminList.html', {'admins': admins})
