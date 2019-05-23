@@ -98,7 +98,17 @@ class Bags(models.Model):
     number_of_bugs = models.CharField(max_length=4, choices=NUMBER)
 
 
-class Location(models.Model):
+class Charity(models.Model):
     location = models.CharField(max_length=50, choices=LOCATION)
     help = models.CharField(max_length=100, choices=HELP)
-    charity = models.CharField(max_length=255)
+    charity_name = models.CharField(max_length=255)
+
+
+class Address(models.Model):
+    street = models.CharField(max_length=300)
+    city = models.CharField(max_length=100)
+    post_code = models.CharField(max_length=6)
+    phone = models.IntegerField()
+    date = models.DateField()
+    time = models.TimeField()
+    notes = models.TextField()

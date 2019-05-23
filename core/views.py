@@ -6,12 +6,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView, ListView, DeleteView, UpdateView
-from forms import LoginForm, SignUpForm, SetAdminPermissionForm
+from .forms import LoginForm, SignUpForm, SetAdminPermissionForm
 
 
 class LandingPage(View):
 
-    def get(self, request):        return render(request, 'index.html')
+    def get(self, request):
+        return render(request, 'index.html')
 
     def post(self, request):
         return HttpResponse()
