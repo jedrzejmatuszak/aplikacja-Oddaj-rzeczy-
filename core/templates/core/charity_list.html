@@ -1,0 +1,36 @@
+{% extends 'simple.html' %}
+{% block title %}Organizacje charytatywne{% endblock %}
+{% block content %}
+    <div class="slogan container container--90">
+        <div class="slogan--item" align="center">
+            <h2>Organizacje charytatywne: </h2>
+            <div align="right">
+            </div>
+            <table style="font-size: large; table-layout: auto; width: 100%; border: black">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nazwa organizacji</th>
+                        <th>Dla kogo kierują pomoc</th>
+                        <th>Lokalizacja</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in charity_list %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.charity_name }}</td>
+                        <td>{{ item.get_help_display }}</td>
+                        <td>{{ item.get_location_display }}</td>
+                        <td>
+                            <a href="#" class="btn btn--without-border">Usuń</a>
+                            <a href="#" class="btn btn--without-border">Modyfikuj</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

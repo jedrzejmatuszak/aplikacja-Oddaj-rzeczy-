@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, FormView, ListView, DeleteView, UpdateView
+
+from .models import Charity
 from .forms import LoginForm, SignUpForm, SetAdminPermissionForm
 
 
@@ -108,3 +110,10 @@ class ModifyUserView(UpdateView):
     fields = ['first_name', 'last_name', 'email']
     template_name_suffix = '_update_form'
     success_url = '/admin-list'
+
+#todo: zalinkować przycisk dodaj administratora
+
+
+class CharityListView(ListView):
+    model = Charity
+    fields = '__all__'
