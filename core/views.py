@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, FormView, ListView, DeleteView, UpdateView
+from django.views.generic import FormView, ListView, DeleteView, UpdateView
 
 from .models import Charity
 from .forms import LoginForm, SignUpForm, SetAdminPermissionForm
@@ -117,3 +117,5 @@ class ModifyUserView(UpdateView):
 class CharityListView(ListView):
     model = Charity
     fields = '__all__'
+
+#TODO: Charity CRUD
