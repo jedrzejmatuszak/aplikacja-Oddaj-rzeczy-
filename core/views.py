@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponse
@@ -7,7 +7,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, ListView, DeleteView, UpdateView, CreateView
 from .models import Charity
-from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm
+from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm, ModifyProfileForm, \
+    ChangePasswordForm
 
 
 class LandingPage(View):
@@ -29,11 +30,11 @@ class LoginView(FormView):
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']
         try:
-            user = User.objects.get(email=email)
+            u = User.objects.get(email=email)
         except Exception:
             msg = 'Nie ma takiego użytkownika'
             return render(self.request, 'registration/login2.html', {'form': form, 'msg': msg})
-        authenticate(username=user.username, password=password)
+        user = authenticate(username=u.username, password=password)
         if user is not None:
             if user.is_active:
                 login(self.request, user)
@@ -41,6 +42,9 @@ class LoginView(FormView):
             else:
                 msg = 'Użytkownik jest nieaktywny. Skontaktuj się z administratorem'
                 return render(self.request, 'registration/login2.html', {'form': form, 'msg': msg})
+        else:
+            msg = "Błędne hasło lub email"
+            return render(self.request, 'registration/login2.html', {'form': form, 'msg': msg})
 
     def form_invalid(self, form):
         msg = "Niepoprawne dane"
@@ -128,9 +132,6 @@ class CharityListView(LoginRequiredMixin, ListView):
     ordering = ['id']
 
 
-#TODO: Charity CRUD
-
-
 class CharityAddView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     login_url = 'login'
     permission_required = 'Charity.add_charity'
@@ -153,3 +154,67 @@ class CharityDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     permission_required = 'Charity.delete_charity'
     model = Charity
     success_url = reverse_lazy('charity_list')
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login2')
+
+    def get(self, request, pk):
+        user = User.objects.get(pk=pk)
+        return render(request, 'UserProfile.html', {'user': user})
+
+
+class UserProfileModifyView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login2')
+
+    def get(self, request, pk):
+        user = User.objects.get(pk=pk)
+        form = ModifyProfileForm(initial={
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email
+        })
+        return render(request, 'auth/user_form.html', {'form': form})
+
+    def post(self, request, pk):
+        form = ModifyProfileForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(pk=pk)
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+            user.save()
+            return redirect(f'/user/profile/{user.pk}')
+        else:
+            msg = 'Niepoprawne dane'
+            return render(request, 'auth/user_form.html', {'form': form, 'msg': msg})
+
+
+class ChangePasswordView(LoginRequiredMixin, View):
+
+    login_url = reverse_lazy('login2')
+
+    def get(self, request):
+        form = ChangePasswordForm
+        return render(request, 'auth/user_change_password.html', {'form': form})
+
+    def post(self, request):
+        pk = request.POST['pk']
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            u = User.objects.get(pk=pk)
+            password = form.cleaned_data['password']
+            user = authenticate(username=u.username, password=password)
+            if user is not None:
+                if form.cleaned_data['new_password'] == form.cleaned_data['check_password']:
+                    u.set_password(form.cleaned_data['new_password'])
+                    u.save()
+                    logout(request)
+                    return redirect('login2')
+                else:
+                    return render(request, 'auth/user_change_password.html', {'form': form, 'msg': 'Hasła nie zgadzają się'})
+            else:
+                return render(request, 'auth/user_change_password.html', {'form': form, 'msg': 'Błędne hasło'})
+        else:
+            msg = "Nieprawidłwe dane"
+            return render(request, 'auth/user_change_password.html', {'form': form, 'msg': msg})

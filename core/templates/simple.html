@@ -15,7 +15,7 @@
             <ul class="nav--actions">
                     <li class="logged-user">Witaj {{ user.first_name }}</li>
                     <li class="dropdown form-group--dropdown">
-                        <li><a href="#" class="btn btn--small btn--without-border">Profil</a></li>
+                        <li><a href="{% url 'profile' pk=user.pk %}" class="btn btn--small btn--without-border">Profil</a></li>
                         <li><a href="#" class="btn btn--small btn--without-border">Ustawienia</a></li>
                         <li><a href="#" class="btn btn--small btn--without-border">Moje zbiórki</a></li>
                         <li><a href="/admin" class="btn btn--small btn--without-border">Panel administratora</a></li>

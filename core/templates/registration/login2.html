@@ -37,7 +37,7 @@
               <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
             </div>
             {% if msg %}
-                {{ msg }}
+                <h3 style="color: red;">{{ msg }}</h3>
             {% endif %}
             <div class="form-group form-group--buttons">
               <a href="{% url 'signup' %}" class="btn btn--without-border">Załóż konto</a>
