@@ -98,10 +98,17 @@ class Bags(models.Model):
     number_of_bugs = models.CharField(max_length=4, choices=NUMBER)
 
 
+class Help(models.Model):
+    for_who = models.CharField(max_length=255)
+
+
 class Charity(models.Model):
     location = models.CharField(max_length=50, choices=LOCATION)
-    help = models.CharField(max_length=100, choices=HELP)
-    charity_name = models.CharField(max_length=255)
+    help = models.ManyToManyField(Help)
+    charity_name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.charity_name
 
 
 class Address(models.Model):

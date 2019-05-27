@@ -17,15 +17,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for item in charity_list %}
+                {% for charity in charity_list %}
                     <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.charity_name }}</td>
-                        <td>{{ item.get_help_display }}</td>
-                        <td>{{ item.get_location_display }}</td>
+                        <td>{{ charity.id }}</td>
+                        <td>{{ charity.charity_name }}</td>
+                        <td>
+                            {% for item in charity.help.all %}
+                                {{ item.for_who }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ charity.get_location_display }}</td>
                         <td>
                             <a href="#" class="btn btn--without-border">Usuń</a>
-                            <a href="#" class="btn btn--without-border">Modyfikuj</a>
+                            <a href="{% url 'update_charity' pk=charity.pk %}" class="btn btn--without-border">Modyfikuj</a>
                         </td>
                     </tr>
                 {% endfor %}

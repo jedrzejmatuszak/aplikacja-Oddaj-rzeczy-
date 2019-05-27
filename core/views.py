@@ -5,10 +5,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, ListView, DeleteView, UpdateView
-
+from django.views.generic import FormView, ListView, DeleteView, UpdateView, CreateView
 from .models import Charity
-from .forms import LoginForm, SignUpForm, SetAdminPermissionForm
+from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, UpdateCharityForm
 
 
 class LandingPage(View):
@@ -86,7 +85,7 @@ class AdminListView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class SetAdminPermission(LoginRequiredMixin, PermissionRequiredMixin, FormView):
     permission_required = 'User.add_permission'
-    login_url = '/'
+    login_url = '/login'
     form_class = SetAdminPermissionForm
     template_name = 'SetAdminPermission.html'
 
@@ -100,6 +99,15 @@ class SetAdminPermission(LoginRequiredMixin, PermissionRequiredMixin, FormView):
         return redirect('admin_list')
 
 
+class AddAdminView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = User
+    login_url = 'login'
+    permission_required = 'User.add_user'
+    form_class = AddAdminForm
+    #TODO: Does this view is really need?
+
+
+
 class DeleteUserView(DeleteView):
     model = User
     success_url = '/admin-list'
@@ -110,12 +118,23 @@ class ModifyUserView(UpdateView):
     fields = ['first_name', 'last_name', 'email']
     template_name_suffix = '_update_form'
     success_url = '/admin-list'
+    #todo: zalinkować przycisk dodaj administratora
 
-#todo: zalinkować przycisk dodaj administratora
 
-
-class CharityListView(ListView):
+class CharityListView(LoginRequiredMixin, ListView):
+    login_url = 'login'
     model = Charity
     fields = '__all__'
+    ordering = ['id']
+
 
 #TODO: Charity CRUD
+
+
+class CharityUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    login_url = 'login'
+    permission_required = 'Charity.change_charity'
+    model = Charity
+    form_class = UpdateCharityForm
+    template_name_suffix = '_update_form'
+    success_url = '/charity-list'

@@ -1,0 +1,28 @@
+{% extends 'simple.html' %}
+{% block title %}Edytuj organizację{% endblock %}
+{% block content %}
+     <section class="login-page">
+      <h2>Edytuj dane</h2>
+      <form method="post" class="form--contact">
+      {% csrf_token %}
+            <div class="form-group">
+                {{ form.charity_name }}
+            </div>
+            <div class="form-group">
+                {{ form.location }}
+            </div>
+            <div class="form-group">
+                {{ form.help }}
+            </div>
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'charity_list' %}" class="btn btn--without-border">Powrót</a>
+              <button class="btn" type="submit">Zapisz zminy</button>
+            </div>
+      </form>
+     {% if form.errors %}
+         {% for err in form.errors %}
+             <li>{{ err }}</li>
+         {% endfor %}
+     {% endif %}
+    </section>
+{% endblock %}
