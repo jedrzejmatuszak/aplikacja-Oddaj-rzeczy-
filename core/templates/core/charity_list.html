@@ -5,6 +5,8 @@
         <div class="slogan--item" align="center">
             <h2>Organizacje charytatywne: </h2>
             <div align="right">
+                <a href="{% url 'add_charity' %}" class="btn btn--without-border">Dodaj organizację</a>
+            </div>
             </div>
             <table style="font-size: large; table-layout: auto; width: 100%; border: black">
                 <thead>
@@ -23,12 +25,12 @@
                         <td>{{ charity.charity_name }}</td>
                         <td>
                             {% for item in charity.help.all %}
-                                {{ item.for_who }}
+                                {{ item.for_who }},
                             {% endfor %}
                         </td>
                         <td>{{ charity.get_location_display }}</td>
                         <td>
-                            <a href="#" class="btn btn--without-border">Usuń</a>
+                            <a href="{% url 'delete_charity' pk=charity.pk %}" class="btn btn--without-border">Usuń</a>
                             <a href="{% url 'update_charity' pk=charity.pk %}" class="btn btn--without-border">Modyfikuj</a>
                         </td>
                     </tr>

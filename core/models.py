@@ -101,6 +101,9 @@ class Bags(models.Model):
 class Help(models.Model):
     for_who = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.for_who
+
 
 class Charity(models.Model):
     location = models.CharField(max_length=50, choices=LOCATION)

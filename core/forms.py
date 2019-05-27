@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.forms import ModelForm
 
-from .models import Charity, HELP
+from .models import Charity, HELP, LOCATION, Help
 
 
 class LoginForm(forms.Form):
@@ -69,16 +69,22 @@ class AddAdminForm(ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
 
-class UpdateCharityForm(ModelForm):
+class AddCharityForm(ModelForm):
 
     class Meta:
         model = Charity
         fields = '__all__'
 
-    help = forms.CharField(
-        label='Komu niesie pomoc',
-        required=True,
-        widget=forms.CheckboxSelectMultiple(
-            choices=HELP
+    charity_name = forms.CharField(
+        label='Nazwa organizacji',
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Nazwa organizacji'}
         )
+    )
+    location = forms.Select(
+        choices=LOCATION,
+    )
+    help = forms.ModelMultipleChoiceField(
+        queryset=Help.objects.all(),
+        widget=forms.CheckboxSelectMultiple()
     )

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdminPermission, DeleteUserView, \
-    ModifyUserView, CharityListView, AddAdminView, CharityUpdateView
+    ModifyUserView, CharityListView, AddAdminView, CharityUpdateView, CharityAddView, CharityDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +30,7 @@ urlpatterns = [
     re_path('delete-user/(?P<pk>(\d)+)', DeleteUserView.as_view(), name='delete_user'),
     re_path('modify-user/(?P<pk>(\d)+)', ModifyUserView.as_view(), name='modify_user'),
     path('charity-list', CharityListView.as_view(), name='charity_list'),
-    re_path('charity-list/modify/(?P<pk>(\d)+)', CharityUpdateView.as_view(), name='update_charity')
+    path('charity-add', CharityAddView.as_view(), name='add_charity'),
+    re_path('charity-list/modify/(?P<pk>(\d)+)', CharityUpdateView.as_view(), name='update_charity'),
+    re_path('charity-list/delete/(?P<pk>(\d)+)', CharityDeleteView.as_view(), name='delete_charity'),
 ]

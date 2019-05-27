@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, ListView, DeleteView, UpdateView, CreateView
 from .models import Charity
-from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, UpdateCharityForm
+from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm
 
 
 class LandingPage(View):
@@ -131,10 +131,25 @@ class CharityListView(LoginRequiredMixin, ListView):
 #TODO: Charity CRUD
 
 
+class CharityAddView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    login_url = 'login'
+    permission_required = 'Charity.add_charity'
+    model = Charity
+    form_class = AddCharityForm
+    success_url = 'charity-list'
+
+
 class CharityUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     login_url = 'login'
     permission_required = 'Charity.change_charity'
     model = Charity
-    form_class = UpdateCharityForm
+    form_class = AddCharityForm
     template_name_suffix = '_update_form'
     success_url = '/charity-list'
+
+
+class CharityDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    login_url = 'login'
+    permission_required = 'Charity.delete_charity'
+    model = Charity
+    success_url = reverse_lazy('charity_list')
