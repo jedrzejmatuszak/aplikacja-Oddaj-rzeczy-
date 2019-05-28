@@ -259,6 +259,7 @@
             <h3>Lokalizacja:</h3>
 
             <div class="form-group form-group--dropdown">
+{#            <div>#}
               <select name="localization">
                 <option value="0">- wybierz -</option>
                   {% for value in locations %}
@@ -316,7 +317,8 @@
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Szukaj</button>
+              <button type="button" class="btn next-step" id="search">Szukaj</button>
+              <button type="button" class="btn btn--without-border" id="test">Test</button>
             </div>
           </div>
 
@@ -510,5 +512,6 @@
     </footer>
 
     <script src="{% static 'js/app.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   </body>
 </html>

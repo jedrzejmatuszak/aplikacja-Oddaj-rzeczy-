@@ -271,4 +271,27 @@ document.addEventListener("DOMContentLoaded", function() {
     })
   }
 
+  // var option = $('.form-group.form-group--dropdown .dropdown div');
+  // console.log(option.text());
+  // option.on('click', function (e) {
+  //   e.preventDefault();
+  //   alert('change');
+  // })
+  $('#test').click(function (e) {
+    e.preventDefault();
+    var location = $('.form-group.form-group--dropdown div div').text();
+    var for_who = [];
+    checkboxes = $('input[name="help[]"]');
+    for (let cbx of checkboxes){
+      if (cbx.checked){
+        for_who.push(cbx.nextElementSibling.textContent)
+      }
+    }
+    var search = $('textarea[name="organization_search"]').val();
+    console.log(location);
+    console.log(for_who);
+    console.log(search);
+
+  })
+
 });
