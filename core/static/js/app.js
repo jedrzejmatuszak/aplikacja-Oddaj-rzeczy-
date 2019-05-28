@@ -214,6 +214,9 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
     }
 
+    /**Show span after chcekbox checked at STEP1*/
+
+
     /**
      * Update form front-end
      * Show next or previous section etc.
@@ -252,4 +255,20 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+  console.log('DOMTreeLoaded');
+  var checkboxes = document.querySelectorAll('.form-group.form-group--checkbox input[name="products[]"');
+  for (cbox of checkboxes){
+    cbox.addEventListener("change", function (e) {
+      var span = this.parentElement.nextElementSibling;
+      span.style.display = 'none';
+      if (this.checked){
+        span.style.display = 'block'
+      }else{
+        span.style.display = 'none'
+      }
+    e.preventDefault();
+    })
+  }
+
 });

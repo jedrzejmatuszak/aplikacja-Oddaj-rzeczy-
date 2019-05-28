@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, ListView, DeleteView, UpdateView, CreateView
-from .models import Charity
+from .models import Charity, LOCATION, FOR_WHO, PURPOSE, GENDER, AGE, BOOKS
 from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm, ModifyProfileForm, \
     ChangePasswordForm
 
@@ -111,7 +111,6 @@ class AddAdminView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     #TODO: Does this view is really need?
 
 
-
 class DeleteUserView(DeleteView):
     model = User
     success_url = '/admin-list'
@@ -212,9 +211,28 @@ class ChangePasswordView(LoginRequiredMixin, View):
                     logout(request)
                     return redirect('login2')
                 else:
-                    return render(request, 'auth/user_change_password.html', {'form': form, 'msg': 'Hasła nie zgadzają się'})
+                    return render(request, 'auth/user_change_password.html',
+                                  {'form': form, 'msg': 'Hasła nie zgadzają się'})
             else:
                 return render(request, 'auth/user_change_password.html', {'form': form, 'msg': 'Błędne hasło'})
         else:
-            msg = "Nieprawidłwe dane"
+            msg = "Nieprawidłowe dane"
             return render(request, 'auth/user_change_password.html', {'form': form, 'msg': msg})
+
+
+class FormStepOne(LoginRequiredMixin, View):
+
+    login_url = reverse_lazy('login2')
+
+    def get(self, request):
+        locations = {}
+        for item in LOCATION:
+            locations[item[1]] = item[1]
+        ctx = {}
+        ctx['for_who'] = FOR_WHO
+        ctx['purpose'] = PURPOSE
+        ctx['gender'] = GENDER
+        ctx['age'] = AGE
+        ctx['books'] = BOOKS
+        return render(request, 'form.html', {'ctx': ctx,
+                                             'locations': locations})

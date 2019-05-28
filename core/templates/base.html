@@ -16,11 +16,11 @@
                 {% if user.is_authenticated %}
                     {% if user|has_group:"Administrator" %}
                         {% if user.first_name %}
-                            <li class="logged-user">Witaj {{ user.first_name }}</li>
+                            <li class="logged-user">Witaj {{ user.first_name }}
                         {% else %}
-                            <li class="logged-user">Witaj {{ user.username }}</li>
+                            <li class="logged-user">Witaj {{ user.username }}
                         {% endif %}
-                    <li class="dropdown">
+                    <ul class="dropdown">
                         <li><a href="{% url 'profile' pk=user.pk %}" class="btn btn--small btn--without-border">Profil</a></li>
                         <li><a href="#" class="btn btn--small btn--without-border">Ustawienia</a></li>
                         <li><a href="#" class="btn btn--small btn--without-border">Moje zbiórki</a></li>
@@ -28,19 +28,20 @@
                         <li><a href="{% url 'admin_list' %}" class="btn btn--small btn--without-border">Lista administratorów</a></li>
                         <li><a href="{% url 'charity_list' %}" class="btn btn--small btn--without-border">Lista organizacji</a></li>
                         <li><a href="{% url 'logout' %}" class="btn btn--small btn--without-border">Wyloguj</a></li>
-                    </li>
+                    </ul>
                     {% else %}
                     {% if user.first_name %}
-                            <li class="logged-user">Witaj {{ user.first_name }}</li>
+                            <li class="logged-user">Witaj {{ user.first_name }}
                         {% else %}
-                            <li class="logged-user">Witaj {{ user.username }}</li>
+                            <li class="logged-user">Witaj {{ user.username }}
                         {% endif %}
-                    <li class="dropdown">
+                    <ul class="dropdown">
                         <li><a href="{% url 'profile' pk=user.pk %}" class="btn btn--small btn--without-border">Profil</a></li>
                         <li><a href="#" class="btn btn--small btn--without-border">Ustawienia</a></li>
                         <li><a href="#" class="btn btn--small btn--without-border">Moje zbiórki</a></li>
                         <li><a href="{% url 'logout' %}" class="btn btn--small btn--without-border">Wyloguj</a></li>
-                    </li>
+                    </ul>
+                </li>
                     {% endif %}
                 {% else %}
                     <li><a href="{% url 'login2' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
