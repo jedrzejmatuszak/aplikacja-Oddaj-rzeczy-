@@ -277,21 +277,30 @@ document.addEventListener("DOMContentLoaded", function() {
   //   e.preventDefault();
   //   alert('change');
   // })
-  $('#test').click(function (e) {
+  $('#search').click(function (e) {
     e.preventDefault();
     var location = $('.form-group.form-group--dropdown div div').text();
-    var for_who = [];
+    var for_who = "";
     checkboxes = $('input[name="help[]"]');
     for (let cbx of checkboxes){
       if (cbx.checked){
-        for_who.push(cbx.nextElementSibling.textContent)
+        for_who += cbx.nextElementSibling.textContent + ","
       }
     }
     var search = $('textarea[name="organization_search"]').val();
     console.log(location);
     console.log(for_who);
     console.log(search);
-
+    $.ajax({
+      url: 'ajax-load-charity',
+      data: {
+        'location': location,
+        'for_who': for_who,
+        'search': search,
+      },
+    }).done(function(response){
+      console.log(response)
+    })
   })
 
 });

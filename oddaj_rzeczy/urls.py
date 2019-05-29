@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdminPermission, DeleteUserView, \
     ModifyUserView, CharityListView, AddAdminView, CharityUpdateView, CharityAddView, CharityDeleteView, \
-    UserProfileView, UserProfileModifyView, ChangePasswordView, FormStepOne
+    UserProfileView, UserProfileModifyView, ChangePasswordView, FormStepOne, load_charity
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +37,7 @@ urlpatterns = [
     re_path('user/profile/(?P<pk>(\d)+)', UserProfileView.as_view(), name='profile'),
     re_path('user/profile-modify/(?P<pk>(\d)+)', UserProfileModifyView.as_view(), name='profile-modify'),
     re_path('user/change-password', ChangePasswordView.as_view(), name='change_password'),
-    path('donate', FormStepOne.as_view(), name='form1')
+    path('donate', FormStepOne.as_view(), name='form1'),
+    path('ajax-load-charity', load_charity, name='ajax'),
 
 ]

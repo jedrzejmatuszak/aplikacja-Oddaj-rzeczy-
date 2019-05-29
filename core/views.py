@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
+from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -236,3 +237,70 @@ class FormStepOne(LoginRequiredMixin, View):
         ctx['books'] = BOOKS
         return render(request, 'form.html', {'ctx': ctx,
                                              'locations': locations})
+
+
+def load_charity(request):
+
+    def get_location(location):
+        for item in LOCATION:
+            if location in item:
+                loc = item[0]
+        return loc
+
+    def get_data(queryset):
+        json = []
+        for data in queryset:
+            temp = {}
+            help_arr = []
+            temp['charity_name'] = data.charity_name
+            temp['location'] = data.get_location_display()
+            for helps in data.help.all():
+                help_arr.append(helps.for_who)
+            temp['help'] = help_arr
+            json.append(temp)
+        if json[0]:
+            return json
+        else:
+            msg = "Nie znaleziono organizacji"
+            return msg
+
+    def get_for_who(search_charity, for_who):
+        search_charity_arr = []
+        for item in for_who:
+            temp = search_charity.filter(help__for_who=item)
+            for org in temp:
+                if org not in search_charity_arr:
+                    search_charity_arr.append(org)
+        return search_charity_arr
+
+
+    location = request.GET.get('location')
+    for_who = request.GET.get('for_who').split(",")
+    search = request.GET.get('search')
+
+    if len(search) > 0:
+        all_charity = Charity.objects.filter(charity_name__contains=search)
+        data = get_data(all_charity)
+        return HttpResponse(data)
+
+    elif len(location) > 0 and len(for_who) == 1:
+        location = get_location(location)
+        search_charity = Charity.objects.filter(location=location)
+        data = get_data(search_charity)
+        return HttpResponse(data)
+
+    elif (len(location) > 0 and location != '- wybierz -') and len(for_who) > 1:
+        location = get_location(location)
+        search_charity = Charity.objects.filter(location=location)
+        all_charity = get_for_who(search_charity, for_who)
+        data = get_data(all_charity)
+        return HttpResponse(data)
+
+    elif location == '- wybierz -' and len(for_who) > 1:
+        search_charity = Charity.objects.all()
+        all_charity = get_for_who(search_charity, for_who)
+        data = get_data(all_charity)
+        return HttpResponse(data)
+
+    else:
+        return HttpResponse('Nie ma takiej organizacji')
