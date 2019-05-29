@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 
-  console.log('DOMTreeLoaded');
+  /** Shows details about clothes  */
   var checkboxes = document.querySelectorAll('.form-group.form-group--checkbox input[name="products[]"');
   for (cbox of checkboxes){
     cbox.addEventListener("change", function (e) {
@@ -270,13 +270,10 @@ document.addEventListener("DOMContentLoaded", function() {
     e.preventDefault();
     })
   }
+  /** Takes data from step 3a form,
+   * then send them to server by ajax
+   * and handle response with data*/
 
-  // var option = $('.form-group.form-group--dropdown .dropdown div');
-  // console.log(option.text());
-  // option.on('click', function (e) {
-  //   e.preventDefault();
-  //   alert('change');
-  // })
   $('#search').click(function (e) {
     e.preventDefault();
     var location = $('.form-group.form-group--dropdown div div').text();
@@ -293,14 +290,30 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log(search);
     $.ajax({
       url: 'ajax-load-charity',
+      dataType: 'json',
       data: {
         'location': location,
         'for_who': for_who,
         'search': search,
       },
     }).done(function(response){
-      console.log(response)
-    })
-  })
-
+      var step = $('div[data-step="4"] h3');
+      console.log(response);
+      for (let item of response){
+        console.log(item);
+        var htmlElement = $(
+          `<div class="form-group form-group--checkbox">
+             <label>
+               <input type="radio" name="organization" value="old"/>
+               <span class="checkbox radio"></span>
+               <span class="description">
+                  <div class="title">${item.charity_name}</div>
+                  <div class="subtitle">Cel i misja: ${item.help}</div>
+               </span>
+             </label>
+           </div>`);
+        step.after(htmlElement)
+      }
+    });
+  });
 });

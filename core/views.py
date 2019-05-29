@@ -10,6 +10,7 @@ from django.views.generic import FormView, ListView, DeleteView, UpdateView, Cre
 from .models import Charity, LOCATION, FOR_WHO, PURPOSE, GENDER, AGE, BOOKS
 from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm, ModifyProfileForm, \
     ChangePasswordForm
+import json
 
 
 class LandingPage(View):
@@ -248,7 +249,7 @@ def load_charity(request):
         return loc
 
     def get_data(queryset):
-        json = []
+        arr = []
         for data in queryset:
             temp = {}
             help_arr = []
@@ -257,9 +258,9 @@ def load_charity(request):
             for helps in data.help.all():
                 help_arr.append(helps.for_who)
             temp['help'] = help_arr
-            json.append(temp)
-        if json[0]:
-            return json
+            arr.append(temp)
+        if arr[0]:
+            return json.dumps(arr)
         else:
             msg = "Nie znaleziono organizacji"
             return msg
@@ -273,7 +274,6 @@ def load_charity(request):
                     search_charity_arr.append(org)
         return search_charity_arr
 
-
     location = request.GET.get('location')
     for_who = request.GET.get('for_who').split(",")
     search = request.GET.get('search')
@@ -283,7 +283,7 @@ def load_charity(request):
         data = get_data(all_charity)
         return HttpResponse(data)
 
-    elif len(location) > 0 and len(for_who) == 1:
+    elif (len(location) > 0 and location != '- wybierz -') and len(for_who) == 1:
         location = get_location(location)
         search_charity = Charity.objects.filter(location=location)
         data = get_data(search_charity)
