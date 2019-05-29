@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 
-  /** Shows details about clothes  */
+  /** Shows span after checkbox checked step 1  */
   var checkboxes = document.querySelectorAll('.form-group.form-group--checkbox input[name="products[]"');
   for (cbox of checkboxes){
     cbox.addEventListener("change", function (e) {
@@ -285,9 +285,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
     var search = $('textarea[name="organization_search"]').val();
-    console.log(location);
-    console.log(for_who);
-    console.log(search);
     $.ajax({
       url: 'ajax-load-charity',
       dataType: 'json',
@@ -298,9 +295,7 @@ document.addEventListener("DOMContentLoaded", function() {
       },
     }).done(function(response){
       var step = $('div[data-step="4"] h3');
-      console.log(response);
       for (let item of response){
-        console.log(item);
         var htmlElement = $(
           `<div class="form-group form-group--checkbox">
              <label>
@@ -317,4 +312,11 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
+  var bags = $('input[name="bags"]').val();
+  var input_step1 = [];
+  var chkbxs = $('input[name="products[]"]').checked;
+  for (let c in chkbxs){
+    console.log(c)
+  }
+  // TODO: get data from all inputs and print them at summary
 });
