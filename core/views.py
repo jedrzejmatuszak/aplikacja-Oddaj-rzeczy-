@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, ListView, DeleteView, UpdateView, CreateView
-from .models import Charity, LOCATION, FOR_WHO, PURPOSE, GENDER, AGE, BOOKS
+from .models import Charity, LOCATION, FOR_WHO, PURPOSE, GENDER, AGE, BOOKS, Help
 from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm, ModifyProfileForm, \
     ChangePasswordForm
 import json
@@ -236,6 +236,7 @@ class FormStepOne(LoginRequiredMixin, View):
         ctx['gender'] = GENDER
         ctx['age'] = AGE
         ctx['books'] = BOOKS
+        ctx['help'] = Help.objects.all()
         return render(request, 'form.html', {'ctx': ctx,
                                              'locations': locations})
 

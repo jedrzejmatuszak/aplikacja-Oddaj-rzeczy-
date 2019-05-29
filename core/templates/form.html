@@ -271,40 +271,20 @@
             <div class="form-section">
               <h4>Komu chcesz pomóc?</h4>
               <div class="form-section--checkboxes">
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="children" />
-                    <span class="checkbox">dzieciom</span>
-                  </label>
-                </div>
-
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="mothers" />
-                    <span class="checkbox">samotnym matkom</span>
-                  </label>
-                </div>
-
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="homeless" />
-                    <span class="checkbox">bezdomnym</span>
-                  </label>
-                </div>
-
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="disabled" />
-                    <span class="checkbox">niepełnosprawnym</span>
-                  </label>
-                </div>
-
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="old" />
-                    <span class="checkbox">osobom starszym</span>
-                  </label>
-                </div>
+                  {% for item in ctx.help %}
+                      <div class="form-group form-group--checkbox">
+                          <label>
+                              <input type="checkbox" name="help[]" value="{{ item.for_who }}"/>
+                              <span class="checkbox">{{ item.for_who }}</span>
+                          </label>
+                      </div>
+                  {% endfor %}
+{#                <div class="form-group form-group--checkbox">#}
+{#                  <label>#}
+{#                    <input type="checkbox" name="help[]" value="children" />#}
+{#                    <span class="checkbox">dzieciom</span>#}
+{#                  </label>#}
+{#                </div>#}
               </div>
             </div>
 
@@ -338,20 +318,7 @@
 {#                </span>#}
 {#              </label>#}
 {#            </div>#}
-{##}
-{#            <div class="form-group form-group--checkbox">#}
-{#              <label>#}
-{#                <input type="radio" name="organization" value="old" />#}
-{#                <span class="checkbox radio"></span>#}
-{#                <span class="description">#}
-{#                  <div class="title">Fundacja “Dla dzieci"</div>#}
-{#                  <div class="subtitle">#}
-{#                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji#}
-{#                    życiowej.#}
-{#                  </div>#}
-{#                </span>#}
-{#              </label>#}
-{#            </div>#}
+
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>

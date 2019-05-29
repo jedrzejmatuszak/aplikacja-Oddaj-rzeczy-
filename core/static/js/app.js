@@ -309,6 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
                <span class="description">
                   <div class="title">${item.charity_name}</div>
                   <div class="subtitle">Cel i misja: ${item.help}</div>
+                  <div class="subtitle">Lokalizacja: ${item.location}</div>
                </span>
              </label>
            </div>`);
