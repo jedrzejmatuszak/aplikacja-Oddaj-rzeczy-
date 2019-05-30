@@ -316,17 +316,52 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
 
       /** inputs step 1 */
-      // var step1_checkboxes = $('[name="products[]"]');
-      // for (let checkbox of step1_checkboxes){
-      //     if (checkbox.checked){
-      //         console.log(checkbox)
-      //     }
-      // }
-      // console.log(step1_checkboxes);
+      var inputCheckboxes = $('input[name="products[]"]');
+      var forWhoSummary = "";
+      var value = "";
+      var what_donate = "";
+      for (let checkbox of inputCheckboxes){
+            if (checkbox.checked){
+                value = checkbox.value;
+                what_donate = checkbox.nextElementSibling.nextElementSibling.textContent;
+                console.log(what_donate);
+                forWhoSummary += what_donate + ": ";
+                var details = $(`input[name="products[${value}]"]`);
+                if (value === 'toys'){
+                    for (let det of details){
+                        if (det.checked){
+                            console.log(det.nextElementSibling.nextElementSibling.textContent);
+                            forWhoSummary += det.nextElementSibling.nextElementSibling.textContent + "-";
+                            var selects = det.parentElement.parentElement.nextElementSibling.firstElementChild.children;
+                            for (let select of selects){
+                                if (select.selected){
+                                    console.log('SELECT');
+                                    console.log(select.value);
+                                    forWhoSummary += select.value + "; "
+                                }
+                            }
+                            forWhoSummary += "| "
+                        }
+                    }
+                }else if(value === 'other'){
+                    var textarea = $(`textarea[name="products[${value}]"]`).val()
+                    forWhoSummary += textarea + " "
+                }else {
+                    for (let det of details){
+                        if (det.checked){
+                            console.log(det.nextElementSibling.nextElementSibling.textContent);
+                            forWhoSummary += det.nextElementSibling.nextElementSibling.textContent + " "
+                        }
+                    }
+                    forWhoSummary += "| "
+                }
+            }
+      }
+
 
       /** inputs step 2 */
       var bags = $('input[name="bags"]').val();
-      console.log(`Liczba worków: ${bags}`)
+      console.log(`Liczba worków: ${bags}`);
 
       /** inputs step 4 */
       var charity = $('input[name="organization"]');
@@ -358,9 +393,9 @@ document.addEventListener("DOMContentLoaded", function() {
       }
 
       /** summary */
-          // todo: get data from step 1
+
       var htmlBags = `
-      <span class="summary--text">${bags} ${bags_html} <strong>CZEGO??</strong></span>`;
+      <span class="summary--text">${bags} ${bags_html}: <strong>${forWhoSummary}</strong></span>`;
       var htmlCharity = `
       <span class="summary--text">Dla fundacji "${organization}" w ${location}</span>`;
       var htmlAddress = `

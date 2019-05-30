@@ -136,7 +136,7 @@
                   {% for for_who in ctx.for_who %}
                       <br>
                       <label>
-                          <input type="checkbox" value="clothes-to-use" name="products[]"/>
+                          <input type="checkbox" value="clothes-to-use" name="products[clothes-to-use]"/>
                           <span class="checkbox"></span>
                           <span class="description">{{ for_who.1 }}</span>
                       </label>
@@ -146,7 +146,7 @@
                 {% for purpose in ctx.purpose %}
                     <br>
                     <label>
-                        <input type="checkbox" value="clothes-to-use" name="products[]"/>
+                        <input type="checkbox" value="clothes-to-use" name="products[clothes-to-use]"/>
                         <span class="checkbox"></span>
                         <span class="description">{{ purpose.1 }}</span>
                     </label>
@@ -180,7 +180,7 @@
                               <tr>
                                   <td>
                                       <label>
-                                          <input type="checkbox" value="gender" name="products[]"/>
+                                          <input type="checkbox" value="gender" name="products[toys]"/>
                                           <span class="checkbox"></span>
                                           <span class="description">{{ gender.1 }}</span>
                                       </label>
@@ -188,7 +188,7 @@
                                   <td>
                                     <select>
                                       {% for age in ctx.age %}
-                                          <option name="products[]">{{ age.1 }}</option>
+                                          <option name="products[toys]">{{ age.1 }}</option>
                                       {% endfor %}
                                     </select>
                                   </td>
@@ -211,7 +211,7 @@
                   {% for books in ctx.books %}
                       <br>
                       <label>
-                          <input type="checkbox" value="{{ books.1 }}" name="products[]"/>
+                          <input type="checkbox" value="{{ books.1 }}" name="products[books]"/>
                           <span class="checkbox"></span>
                           <span class="description">{{ books.1 }}</span>
                       </label>
@@ -228,7 +228,7 @@
               </label>
               <div style="display: none">
                   <p>Wypisz jakie:</p>
-                  <textarea rows="5" cols="50" name="products[]"></textarea>
+                  <textarea rows="5" cols="50" name="products[other]"></textarea>
               </div>
             </div>
 
