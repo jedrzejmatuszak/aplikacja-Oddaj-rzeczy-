@@ -309,3 +309,28 @@ def load_charity(request):
 
     else:
         return HttpResponse('Nie ma takiej organizacji')
+
+
+class SaveDonateView(View):
+
+    def get(self, request):
+        arr = []
+        bags = request.GET.get('bags') + " |"
+        arr.append(bags)
+        address = request.GET.get('address') + " |"
+        arr.append(address)
+        city = request.GET.get('city') + " |"
+        arr.append(city)
+        postcode = request.GET.get('postcode') + " |"
+        arr.append(postcode)
+        phone = request.GET.get('phone') + " |"
+        arr.append(phone)
+        data = request.GET.get('date') + " |"
+        arr.append(data)
+        time = request.GET.get('time') + " |"
+        arr.append(time)
+        more_info = request.GET.get('more_info') + " |"
+        arr.append(more_info)
+        return HttpResponse(arr)
+
+#TODO: zapisać zebrane rzeczy do bazy danych

@@ -411,5 +411,31 @@ document.addEventListener("DOMContentLoaded", function() {
       $('.icon.icon-hand').after(htmlCharity);
       $('#address').append(htmlAddress);
       $('#date').append(htmlDate);
-  })
+
+      /** sendind data to server */
+      $('#test').click(function (e) {
+          e.preventDefault();
+          $.ajax({
+              url: 'save-donate',
+              data: {
+                  'bags': bags,
+                  'address': address,
+                  'city': city,
+                  'postcode': postcode,
+                  'phone': phone,
+                  'date': date,
+                  'time': time,
+                  'more_info': more_info,
+              },
+              method: 'get',
+          }).done(function (response) {
+              if (response){
+                  alert('Zgłoszenie przyjęto')
+              }
+              console.log(response)
+          }).fail(function () {
+              alert('Coś poszło nie tak')
+          })
+    })
+  });
 });

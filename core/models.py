@@ -122,3 +122,17 @@ class Address(models.Model):
     date = models.DateField()
     time = models.TimeField()
     notes = models.TextField()
+
+
+class Donate(models.Model):
+    number_of_bags = models.IntegerField()
+    street = models.CharField(max_length=300)
+    city = models.CharField(max_length=100)
+    post_code = models.CharField(max_length=6)
+    phone = models.IntegerField()
+    date = models.DateField()
+    time = models.TimeField()
+    notes = models.TextField()
+    more_info = models.TextField()
+
+
