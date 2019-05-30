@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function() {
                <span class="description">
                   <div class="title">${item.charity_name}</div>
                   <div class="subtitle">Cel i misja: ${item.help}</div>
-                  <div class="subtitle">Lokalizacja: ${item.location}</div>
+                  <div class="subtitle">${item.location}</div>
                </span>
              </label>
            </div>`);
@@ -312,11 +312,69 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
-  var bags = $('input[name="bags"]').val();
-  var input_step1 = [];
-  var chkbxs = $('input[name="products[]"]').checked;
-  for (let c in chkbxs){
-    console.log(c)
-  }
-  // TODO: get data from all inputs and print them at summary
+  $('#summary').click(function (e) {
+      e.preventDefault();
+
+      /** inputs step 1 */
+      // var step1_checkboxes = $('[name="products[]"]');
+      // for (let checkbox of step1_checkboxes){
+      //     if (checkbox.checked){
+      //         console.log(checkbox)
+      //     }
+      // }
+      // console.log(step1_checkboxes);
+
+      /** inputs step 2 */
+      var bags = $('input[name="bags"]').val();
+      console.log(`Liczba worków: ${bags}`)
+
+      /** inputs step 4 */
+      var charity = $('input[name="organization"]');
+      for (let org of charity){
+          if (org.checked){
+              var organization = org.nextElementSibling.nextElementSibling.firstElementChild.textContent;
+              var location = org.nextElementSibling.nextElementSibling.lastElementChild.textContent
+          }
+      }
+      console.log(organization);
+      console.log(location);
+
+      /** inputs step 5 */
+
+      var address = $('input[name="address"]').val();
+      var city = $('input[name="city"]').val();
+      var postcode = $('input[name="postcode"]').val();
+      var phone = $('input[name="phone"]').val();
+      var date = $('input[name="data"]').val();
+      var time = $('input[name="time"]').val();
+      var more_info = $('textarea[name="more_info"]').val();
+
+      if (parseInt(bags) === 1){
+          var bags_html = "worek"
+      }else if (parseInt(bags) < 5){
+          var bags_html = "worki"
+      }else{
+          var bags_html = "worków"
+      }
+
+      /** summary */
+          // todo: get data from step 1
+      var htmlBags = `
+      <span class="summary--text">${bags} ${bags_html} <strong>CZEGO??</strong></span>`;
+      var htmlCharity = `
+      <span class="summary--text">Dla fundacji "${organization}" w ${location}</span>`;
+      var htmlAddress = `
+      <li>${address}</li>
+      <li>${city}</li>
+      <li>${postcode}</li>
+      <li>${phone}</li>`;
+      var htmlDate = `
+      <li>${date}</li>
+      <li>${time}</li>
+      <li>Uwagi dla kuriera: ${more_info}</li>`;
+      $('.icon.icon-bag').after(htmlBags);
+      $('.icon.icon-hand').after(htmlCharity);
+      $('#address').append(htmlAddress);
+      $('#date').append(htmlDate);
+  })
 });

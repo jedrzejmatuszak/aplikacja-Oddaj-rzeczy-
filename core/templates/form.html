@@ -136,7 +136,7 @@
                   {% for for_who in ctx.for_who %}
                       <br>
                       <label>
-                          <input type="checkbox" value="clothes-to-use"/>
+                          <input type="checkbox" value="clothes-to-use" name="products[]"/>
                           <span class="checkbox"></span>
                           <span class="description">{{ for_who.1 }}</span>
                       </label>
@@ -146,7 +146,7 @@
                 {% for purpose in ctx.purpose %}
                     <br>
                     <label>
-                        <input type="checkbox" value="clothes-to-use"/>
+                        <input type="checkbox" value="clothes-to-use" name="products[]"/>
                         <span class="checkbox"></span>
                         <span class="description">{{ purpose.1 }}</span>
                     </label>
@@ -180,7 +180,7 @@
                               <tr>
                                   <td>
                                       <label>
-                                          <input type="checkbox" value="gender"/>
+                                          <input type="checkbox" value="gender" name="products[]"/>
                                           <span class="checkbox"></span>
                                           <span class="description">{{ gender.1 }}</span>
                                       </label>
@@ -188,7 +188,7 @@
                                   <td>
                                     <select>
                                       {% for age in ctx.age %}
-                                          <option>{{ age.1 }}</option>
+                                          <option name="products[]">{{ age.1 }}</option>
                                       {% endfor %}
                                     </select>
                                   </td>
@@ -211,7 +211,7 @@
                   {% for books in ctx.books %}
                       <br>
                       <label>
-                          <input type="checkbox" value="{{ books.1 }}"/>
+                          <input type="checkbox" value="{{ books.1 }}" name="products[]"/>
                           <span class="checkbox"></span>
                           <span class="description">{{ books.1 }}</span>
                       </label>
@@ -228,7 +228,7 @@
               </label>
               <div style="display: none">
                   <p>Wypisz jakie:</p>
-                  <textarea rows="5" cols="50"></textarea>
+                  <textarea rows="5" cols="50" name="products[]"></textarea>
               </div>
             </div>
 
@@ -373,7 +373,7 @@
             </div>
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
+              <button type="button" class="btn next-step" id="summary">Dalej</button>
             </div>
           </div>
 
@@ -387,16 +387,10 @@
                 <ul>
                   <li>
                     <span class="icon icon-bag"></span>
-                    <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
-                    >
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
-                    >
                   </li>
                 </ul>
               </div>
@@ -404,20 +398,13 @@
               <div class="form-section form-section--columns">
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
-                  <ul>
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                  <ul id="address">
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
-                  <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
+                  <ul id="date">
                   </ul>
                 </div>
               </div>
