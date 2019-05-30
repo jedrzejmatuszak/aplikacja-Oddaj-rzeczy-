@@ -31,6 +31,7 @@ class LoginView(FormView):
     def form_valid(self, form):
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']
+        next_page = self.request.GET.get('next')
         try:
             u = User.objects.get(email=email)
         except Exception:
@@ -40,7 +41,10 @@ class LoginView(FormView):
         if user is not None:
             if user.is_active:
                 login(self.request, user)
-                return redirect('/')
+                if next_page:
+                    return redirect(next_page)
+                else:
+                    return redirect('/')
             else:
                 msg = 'Użytkownik jest nieaktywny. Skontaktuj się z administratorem'
                 return render(self.request, 'registration/login2.html', {'form': form, 'msg': msg})
