@@ -42,19 +42,6 @@ BOOKS = (
     ('4', 'edukacyjne')
 )
 
-NUMBER = (
-    ('1', '1'),
-    ('2', '2'),
-    ('3', '3'),
-    ('4', '4'),
-    ('5', '5'),
-    ('6', '6'),
-    ('7', '7'),
-    ('8', '8'),
-    ('9', '9'),
-    ('10', '10'),
-    ('11', '>10'),
-)
 
 LOCATION = (
     ('1', 'dolnośląskie'),
@@ -86,16 +73,25 @@ HELP = (
 
 
 class Clothes(models.Model):
-    type = models.CharField(max_length=128, choices=CLOTHES)
-    for_who = models.CharField(max_length=128, choices=FOR_WHO)
-    purpose = models.CharField(max_length=128, choices=PURPOSE)
+    type = models.CharField(max_length=255)
+    for_who = models.CharField(max_length=255)
+    purpose = models.CharField(max_length=255)
+
+
+class Toys(models.Model):
     toys = models.CharField(max_length=128, choices=GENDER)
+
+
+class Books(models.Model):
     books = models.CharField(max_length=128, choices=BOOKS)
+
+
+class Others(models.Model):
     others = models.TextField()
 
 
 class Bags(models.Model):
-    number_of_bugs = models.CharField(max_length=4, choices=NUMBER)
+    number_of_bugs = models.IntegerField()
 
 
 class Help(models.Model):
@@ -119,20 +115,16 @@ class Address(models.Model):
     city = models.CharField(max_length=100)
     post_code = models.CharField(max_length=6)
     phone = models.IntegerField()
+    more_info = models.TextField(null=True)
     date = models.DateField()
     time = models.TimeField()
-    notes = models.TextField()
 
 
 class Donate(models.Model):
-    number_of_bags = models.IntegerField()
-    street = models.CharField(max_length=300)
-    city = models.CharField(max_length=100)
-    post_code = models.CharField(max_length=6)
-    phone = models.IntegerField()
-    date = models.DateField()
-    time = models.TimeField()
-    notes = models.TextField()
-    more_info = models.TextField()
-
-
+    clothes = models.ForeignKey(Clothes, on_delete=models.SET_NULL, null=True)
+    toys = models.ForeignKey(Toys, on_delete=models.SET_NULL, null=True)
+    books = models.ForeignKey(Books, on_delete=models.SET_NULL, null=True)
+    others = models.ForeignKey(Others, on_delete=models.SET_NULL, null=True)
+    bags = models.ForeignKey(Bags, on_delete=models.CASCADE)
+    charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)

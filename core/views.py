@@ -331,6 +331,8 @@ class SaveDonateView(View):
         arr.append(time)
         more_info = request.GET.get('more_info') + " |"
         arr.append(more_info)
-        return HttpResponse(arr)
+        forWhoSummary = request.GET.get('forWhoSummary')
+        arr.append(forWhoSummary)
+        return HttpResponse(forWhoSummary)
 
 #TODO: zapisać zebrane rzeczy do bazy danych

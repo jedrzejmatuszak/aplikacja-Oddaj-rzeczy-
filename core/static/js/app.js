@@ -340,17 +340,17 @@ document.addEventListener("DOMContentLoaded", function() {
                                     forWhoSummary += select.value + "; "
                                 }
                             }
-                            forWhoSummary += "| "
                         }
-                    }
+
+                    }forWhoSummary += "| "
                 }else if(value === 'other'){
-                    var textarea = $(`textarea[name="products[${value}]"]`).val()
+                    var textarea = $(`textarea[name="products[${value}]"]`).val();
                     forWhoSummary += textarea + " "
                 }else {
                     for (let det of details){
                         if (det.checked){
                             console.log(det.nextElementSibling.nextElementSibling.textContent);
-                            forWhoSummary += det.nextElementSibling.nextElementSibling.textContent + " "
+                            forWhoSummary += det.nextElementSibling.nextElementSibling.textContent + ", "
                         }
                     }
                     forWhoSummary += "| "
@@ -426,6 +426,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   'date': date,
                   'time': time,
                   'more_info': more_info,
+                  'forWhoSummary': forWhoSummary,
               },
               method: 'get',
           }).done(function (response) {
