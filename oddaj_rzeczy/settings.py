@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import secure
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '10ktjeycvji-q(!-x8z(^s1+)i#p0w@u7xly-7i1y^!ehhozym'
+SECRET_KEY = secure.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,16 +77,7 @@ WSGI_APPLICATION = 'oddaj_rzeczy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'oddaj_rzeczy',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
-    }
-}
+DATABASES = secure.DATABASES
 
 
 # Password validation
@@ -106,6 +98,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email settings
+EMAIL_BACKEND = secure.EMAIL_BACKEND
+EMAIL_HOST = secure.EMAIL_HOST
+EMAIL_USE_TLS = secure.EMAIL_USE_TLS
+EMAIL_PORT = secure.EMAIL_PORT
+EMAIL_HOST_USER = secure.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = secure.EMAIL_HOST_PASSWORD
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

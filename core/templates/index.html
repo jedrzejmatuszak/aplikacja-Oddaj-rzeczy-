@@ -54,7 +54,7 @@
           <li><a href="{% url 'landing_page' %}" class="btn btn--without-border active">Start</a></li>
           <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
           <li><a href="#" class="btn btn--without-border">O nas</a></li>
-          <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
+          <li><a href="{% url 'charity_list' %}" class="btn btn--without-border">Fundacje i organizacje</a></li>
           <li><a href="#" class="btn btn--without-border">Kontakt</a></li>
         </ul>
       </nav>
@@ -75,19 +75,19 @@
     <section class="stats">
       <div class="container container--85">
         <div class="stats--item">
-          <em>10</em>
+          <em>{{ context.total_bags }}</em>
           <h3>Oddanych worków</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
         </div>
 
         <div class="stats--item">
-          <em>5</em>
+          <em>{{ context.total_charity }}</em>
           <h3>Wspartych organizacji</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas quam.</p>
         </div>
 
         <div class="stats--item">
-          <em>7</em>
+          <em>{{ context.total_donate }}</em>
           <h3>Zorganizowanych zbiórek</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos dolores commodi error. Natus, officiis vitae?</p>
         </div>

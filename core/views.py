@@ -21,10 +21,19 @@ from dateutil.parser import parse
 class LandingPage(View):
 
     def get(self, request):
-        return render(request, 'index.html')
-
-    def post(self, request):
-        return HttpResponse()
+        donates = Donate.objects.filter(user_id=request.user.id)
+        context = {}
+        total_bags = 0
+        total_donate = len(donates)
+        total_charity = []
+        for donate in donates:
+            total_bags += int(donate.bags.number_of_bags)
+            if donate.charity.charity_name not in total_charity:
+                total_charity.append(donate.charity.charity_name)
+        context['total_bags'] = total_bags
+        context['total_donate'] = total_donate
+        context['total_charity'] = len(total_charity)
+        return render(request, 'index.html', {'context': context})
 
 
 class LoginView(FormView):
