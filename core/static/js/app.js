@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       /** inputs step 5 */
 
-      var address = $('input[name="address"]').val();
+      var street = $('input[name="street"]').val();
       var city = $('input[name="city"]').val();
       var postcode = $('input[name="postcode"]').val();
       var phone = $('input[name="phone"]').val();
@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function() {
               url: 'save-donate',
               data: {
                   'bags': bags,
-                  'address': address,
+                  'street': street,
                   'city': city,
                   'postcode': postcode,
                   'phone': phone,
@@ -427,6 +427,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   'time': time,
                   'more_info': more_info,
                   'forWhoSummary': forWhoSummary,
+                  'organization': organization,
               },
               method: 'get',
           }).done(function (response) {

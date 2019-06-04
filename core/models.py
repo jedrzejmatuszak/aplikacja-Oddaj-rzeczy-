@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -73,21 +74,21 @@ HELP = (
 
 
 class Clothes(models.Model):
-    type = models.CharField(max_length=255)
-    for_who = models.CharField(max_length=255)
-    purpose = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, null=True)
+    for_who = models.CharField(max_length=255, null=True)
+    purpose = models.CharField(max_length=255, null=True)
 
 
 class Toys(models.Model):
-    toys = models.CharField(max_length=128, choices=GENDER)
+    toys = models.CharField(max_length=128, null=True)
 
 
 class Books(models.Model):
-    books = models.CharField(max_length=128, choices=BOOKS)
+    books = models.CharField(max_length=128, null=True)
 
 
 class Others(models.Model):
-    others = models.TextField()
+    others = models.TextField(null=True)
 
 
 class Bags(models.Model):
@@ -113,7 +114,7 @@ class Charity(models.Model):
 class Address(models.Model):
     street = models.CharField(max_length=300)
     city = models.CharField(max_length=100)
-    post_code = models.CharField(max_length=6)
+    postcode = models.CharField(max_length=6)
     phone = models.IntegerField()
     more_info = models.TextField(null=True)
     date = models.DateField()
@@ -121,6 +122,7 @@ class Address(models.Model):
 
 
 class Donate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     clothes = models.ForeignKey(Clothes, on_delete=models.SET_NULL, null=True)
     toys = models.ForeignKey(Toys, on_delete=models.SET_NULL, null=True)
     books = models.ForeignKey(Books, on_delete=models.SET_NULL, null=True)

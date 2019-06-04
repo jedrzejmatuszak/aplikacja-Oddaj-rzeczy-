@@ -7,10 +7,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, ListView, DeleteView, UpdateView, CreateView
-from .models import Charity, LOCATION, FOR_WHO, PURPOSE, GENDER, AGE, BOOKS, Help
+from .models import Charity, LOCATION, FOR_WHO, PURPOSE, GENDER, AGE, BOOKS, Help, Clothes, Toys, Books, Others, \
+    Bags, Address, Donate
 from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, AddCharityForm, ModifyProfileForm, \
     ChangePasswordForm
+from .utils import get_things
 import json
+from dateutil.parser import parse
 
 
 class LandingPage(View):
@@ -311,28 +314,81 @@ def load_charity(request):
         return HttpResponse('Nie ma takiej organizacji')
 
 
-class SaveDonateView(View):
+class SaveDonateView(LoginRequiredMixin, View):
+
+    login_url = reverse_lazy('login2')
 
     def get(self, request):
-        arr = []
-        bags = request.GET.get('bags') + " |"
-        arr.append(bags)
-        address = request.GET.get('address') + " |"
-        arr.append(address)
-        city = request.GET.get('city') + " |"
-        arr.append(city)
-        postcode = request.GET.get('postcode') + " |"
-        arr.append(postcode)
-        phone = request.GET.get('phone') + " |"
-        arr.append(phone)
-        data = request.GET.get('date') + " |"
-        arr.append(data)
-        time = request.GET.get('time') + " |"
-        arr.append(time)
-        more_info = request.GET.get('more_info') + " |"
-        arr.append(more_info)
+        bags = request.GET.get('bags')
+        street = request.GET.get('street')
+        city = request.GET.get('city')
+        postcode = request.GET.get('postcode')
+        phone = request.GET.get('phone')
+        date = parse(request.GET.get('date'))
+        time = request.GET.get('time')
+        more_info = request.GET.get('more_info')
         forWhoSummary = request.GET.get('forWhoSummary')
-        arr.append(forWhoSummary)
+        organization = request.GET.get('organization')
+        things = get_things(forWhoSummary)
+        print(things)
+        """ Creating instance Clothes """
+        if "clothes_type" in things:
+            clothes = Clothes.objects.create(
+                type=things['clothes_type'],
+                for_who=things['clothes_for_who'],
+                purpose=things['clothes_purpose']
+            )
+        else:
+            clothes = None
+        """ Creating instance Toys """
+        if 'toys' in things:
+            toys = Toys.objects.create(
+                toys=things['toys']
+            )
+        else:
+            toys = None
+        """ Createing instance Books """
+        if 'books' in things:
+            books = Books.objects.create(
+                books=things['books']
+            )
+        else:
+            books = None
+        """ Creating instance Others """
+        if 'others' in things:
+            others = Others.objects.create(
+                others=things['others']
+            )
+        else:
+            others = None
+        """ Creating instance bags """
+        bags = Bags.objects.create(
+            number_of_bugs=bags
+        )
+        """ Loading from db charity """
+        charity = Charity.objects.get(charity_name=organization)
+        """ Creating instance Address """
+        address = Address.objects.create(
+            street=street,
+            city=city,
+            postcode=postcode,
+            phone=phone,
+            more_info=more_info,
+            date=date,
+            time=time
+        )
+        """ creating Donate instance """
+        Donate.objects.create(
+            user=User.objects.get(username=request.user.username),
+            clothes=clothes,
+            toys=toys,
+            books=books,
+            others=others,
+            bags=bags,
+            charity=charity,
+            address=address,
+        )
+
         return HttpResponse(forWhoSummary)
 
 #TODO: zapisać zebrane rzeczy do bazy danych
