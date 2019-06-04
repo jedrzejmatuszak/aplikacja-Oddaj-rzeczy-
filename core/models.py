@@ -92,7 +92,7 @@ class Others(models.Model):
 
 
 class Bags(models.Model):
-    number_of_bugs = models.IntegerField()
+    number_of_bags = models.IntegerField()
 
 
 class Help(models.Model):
@@ -124,6 +124,7 @@ class Address(models.Model):
 class Donate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     clothes = models.ForeignKey(Clothes, on_delete=models.SET_NULL, null=True)
+    useless_clothes = models.BooleanField(default=False)
     toys = models.ForeignKey(Toys, on_delete=models.SET_NULL, null=True)
     books = models.ForeignKey(Books, on_delete=models.SET_NULL, null=True)
     others = models.ForeignKey(Others, on_delete=models.SET_NULL, null=True)

@@ -16,7 +16,7 @@ def get_things(forWhoSummary):
             data['clothes_for_who'] = clothes_for_who
             data['clothes_purpose'] = clothes_purpose
         if "do wyrzucenia" in item:
-            data['utils'] = 'ubrania do wyrzucenia'
+            data['useless_clothes'] = True
         if "zabawki" in item:
             data['toys'] = item.split(':')[1]
         if "książki" in item:

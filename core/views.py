@@ -340,6 +340,13 @@ class SaveDonateView(LoginRequiredMixin, View):
             )
         else:
             clothes = None
+
+        """ Checking if useless clothes was checked """
+        if "useless_clothes" in things:
+            useless_clothes = True
+        else:
+            useless_clothes = False
+
         """ Creating instance Toys """
         if 'toys' in things:
             toys = Toys.objects.create(
@@ -347,6 +354,7 @@ class SaveDonateView(LoginRequiredMixin, View):
             )
         else:
             toys = None
+
         """ Createing instance Books """
         if 'books' in things:
             books = Books.objects.create(
@@ -354,6 +362,7 @@ class SaveDonateView(LoginRequiredMixin, View):
             )
         else:
             books = None
+
         """ Creating instance Others """
         if 'others' in things:
             others = Others.objects.create(
@@ -363,10 +372,12 @@ class SaveDonateView(LoginRequiredMixin, View):
             others = None
         """ Creating instance bags """
         bags = Bags.objects.create(
-            number_of_bugs=bags
+            number_of_bags=bags
         )
+
         """ Loading from db charity """
         charity = Charity.objects.get(charity_name=organization)
+
         """ Creating instance Address """
         address = Address.objects.create(
             street=street,
@@ -377,10 +388,12 @@ class SaveDonateView(LoginRequiredMixin, View):
             date=date,
             time=time
         )
+
         """ creating Donate instance """
         Donate.objects.create(
             user=User.objects.get(username=request.user.username),
             clothes=clothes,
+            useless_clothes=useless_clothes,
             toys=toys,
             books=books,
             others=others,
@@ -390,5 +403,3 @@ class SaveDonateView(LoginRequiredMixin, View):
         )
 
         return HttpResponse(forWhoSummary)
-
-#TODO: zapisać zebrane rzeczy do bazy danych
