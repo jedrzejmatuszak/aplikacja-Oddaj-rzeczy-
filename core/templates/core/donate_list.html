@@ -1,0 +1,81 @@
+{% extends 'simple.html' %}
+{% block title %}Przekazane datki{% endblock %}
+{% block content %}
+    <div class="slogan container container--90">
+        <div class="slogan--item" align="center">
+            <div align="right">
+            </div>
+            </div>
+            {% for donate in donate_list %}
+                <h2>Zlecenie nr {{ donate.id }} {{ donate.user.username }}</h2>
+                <table border="1" style="font-size: large; table-layout: auto; width: 100%;">
+                    <tbody>
+                        <tr style="height: 150px;">
+                            <th rowspan="4">Co przekazano</th>
+                            <td rowspan="4">
+                                {% if donate.clothes %}
+                                    {{ donate.clothes.type }}<br>
+                                    {{ donate.clothes.for_who }}<br>
+                                    {{ donate.clothes.purpose }}<br>
+                                    <hr>
+                                {% endif %}
+                                {% if donate.useless_clothes %}
+                                    Ubrania do wyrzucenia<br><hr>
+                                {% endif %}
+                                {% if donate.toys %}
+                                    Zabawki: {{ donate.toys.toys }}<br><hr>
+                                {% endif %}
+                                {% if donate.books %}
+                                    Książki: {{ donate.books.books }}<br><hr>
+                                {% endif %}
+                                {% if donate.others %}
+                                    Inne: {{ donate.others.others }}<br><hr>
+                                {% endif %}
+                            </td>
+                            <th>Adres odbioru</th>
+                            <td>
+                                {{ donate.address.street }}<br>
+                                {{ donate.address.postcode }} {{ donate.address.city }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Data odbioru</th>
+                            <td>{{ donate.address.date }} {{ donate.address.time }}</td>
+                        </tr>
+                        <tr>
+                            <th>Data złożenia zamówienia</th>
+                            <td>{{ donate.form_date.date }} {{ donate.form_date.time }}</td>
+                        </tr>
+                        <tr>
+                            {% if donate.status %}
+                                <th rowspan="2">Status odbioru</th>
+                                <td rowspan="2"><strong style="color: green;">Odebrane</strong></td>
+                            {% else %}
+                                <th>Status odbioru</th>
+                                <td><strong style="color: red;">Nie odebrane</strong></td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Liczba worków</th>
+                            <td>{{ donate.bags.number_of_bags }}</td>
+                            {% if donate.status %}
+                            {% else %}
+                                <td colspan="2" align="center"><a href="{% url 'collect_donate' pk=donate.pk %}" class="btn btn--without-border">Odebrano</a></td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Organizacja</th>
+                            <td>{{ donate.charity.charity_name }} - województwo {{ donate.charity.get_location_display }}</td>
+                            {% if donate.status %}
+                                <th>Zamówienie odebrane</th>
+                                <td>{{ donate.status_change.date }}, {{ donate.status_change.time }}</td>
+                            {% else %}
+                                <td colspan="2" align="center">Zamówienie jeszcze nie zostało odebrane</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

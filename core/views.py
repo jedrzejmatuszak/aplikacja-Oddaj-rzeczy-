@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
@@ -402,3 +404,24 @@ class SaveDonateView(LoginRequiredMixin, View):
         )
 
         return HttpResponse(forWhoSummary)
+
+
+class DonateListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login2')
+    model = Donate
+    fields = '__all__'
+
+    def get(self, request, pk):
+        donate_list = Donate.objects.filter(
+            user=User.objects.get(pk=pk)).order_by('-status', '-status_change', '-form_date')
+        return render(request, 'core/donate_list.html', {'donate_list': donate_list})
+
+
+class CollectDonateView(LoginRequiredMixin, View):
+
+    def get(self, request, pk):
+        donate = Donate.objects.get(pk=pk)
+        donate.status = True
+        donate.status_change = datetime.datetime.now()
+        donate.save()
+        return redirect(f'/donate-list/{request.user.pk}')
