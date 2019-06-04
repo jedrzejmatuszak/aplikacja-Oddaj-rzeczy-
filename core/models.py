@@ -131,3 +131,7 @@ class Donate(models.Model):
     bags = models.ForeignKey(Bags, on_delete=models.CASCADE)
     charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    form_date = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False, verbose_name="Odebrany")
+    status_change = models.DateTimeField('status', null=True)
+

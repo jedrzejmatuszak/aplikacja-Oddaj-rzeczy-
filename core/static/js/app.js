@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", function() {
       var htmlCharity = `
       <span class="summary--text">Dla fundacji "${organization}" w ${location}</span>`;
       var htmlAddress = `
-      <li>${address}</li>
+      <li>${street}</li>
       <li>${city}</li>
       <li>${postcode}</li>
       <li>${phone}</li>`;
@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function() {
       $('#date').append(htmlDate);
 
       /** sendind data to server */
-      $('#test').click(function (e) {
+      $('#submit').click(function (e) {
           e.preventDefault();
           $.ajax({
               url: 'save-donate',
@@ -430,14 +430,15 @@ document.addEventListener("DOMContentLoaded", function() {
                   'organization': organization,
               },
               method: 'get',
-          }).done(function (response) {
-              if (response){
-                  alert('Zgłoszenie przyjęto')
-              }
-              console.log(response)
+          }).done(function () {
+              console.log('poszło')
           }).fail(function () {
               alert('Coś poszło nie tak')
-          })
-    })
+          });
+      });
+      $(document).ajaxComplete(function () {
+         $('div[data-step="6"]').removeClass("active");
+         $('div[data-step="7"]').addClass('active');
+      });
   });
 });

@@ -330,7 +330,6 @@ class SaveDonateView(LoginRequiredMixin, View):
         forWhoSummary = request.GET.get('forWhoSummary')
         organization = request.GET.get('organization')
         things = get_things(forWhoSummary)
-        print(things)
         """ Creating instance Clothes """
         if "clothes_type" in things:
             clothes = Clothes.objects.create(
