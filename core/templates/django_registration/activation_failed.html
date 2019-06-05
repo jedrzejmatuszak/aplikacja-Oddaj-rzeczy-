@@ -1,0 +1,7 @@
+{% extends 'simple.html' %}
+{% block content %}
+<h2>Coś poszło nie tak</h2>
+    {% for key, value in activation_error.items %}
+        {{ key }}: {{ value }}
+    {% endfor %}
+{% endblock %}

@@ -106,6 +106,10 @@ EMAIL_PORT = secure.EMAIL_PORT
 EMAIL_HOST_USER = secure.EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = secure.EMAIL_HOST_PASSWORD
 
+
+#Account activation
+ACCOUNT_ACTIVATION_DAYS = 2 # 2 days activation window
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 

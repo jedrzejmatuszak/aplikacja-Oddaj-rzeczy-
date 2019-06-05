@@ -23,7 +23,8 @@ from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdm
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view(), name='landing_page'),
-    path('register/', include('django.contrib.auth.urls'), name='register'),
+    re_path('^accounts/', include('django.contrib.auth.urls')),
+    re_path('^accounts/', include('django_registration.backends.activation.urls')),
     path('signup', SignUpView.as_view(), name='signup'),
     path('admin-list', AdminListView.as_view(), name='admin_list'),
     path('login', LoginView.as_view(), name='login2'),
