@@ -1,9 +1,6 @@
-import datetime
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
-from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -16,6 +13,9 @@ from .forms import LoginForm, SignUpForm, SetAdminPermissionForm, AddAdminForm, 
 from .utils import get_things
 import json
 from dateutil.parser import parse
+import datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class LandingPage(View):
@@ -434,3 +434,12 @@ class CollectDonateView(LoginRequiredMixin, View):
         donate.status_change = datetime.datetime.now()
         donate.save()
         return redirect(f'/donate-list/{request.user.pk}')
+
+
+def email(request):
+    subject = 'Thank you for registering to our site'
+    message = ' it  means a world to us '
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['jedrzej.matuszak@gmail.com']
+    send_mail(subject, message, email_from, recipient_list)
+    return HttpResponse("wysłano")
