@@ -129,5 +129,6 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 
+LOGIN_URL = 'login2'
 LOGIN_REDIRECT_URL = 'landing_page'
 LOGOUT_REDIRECT_URL = 'landing_page'
