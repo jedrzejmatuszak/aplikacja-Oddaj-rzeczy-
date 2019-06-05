@@ -14,8 +14,6 @@ from .utils import get_things
 import json
 from dateutil.parser import parse
 import datetime
-from django.core.mail import send_mail
-from django.conf import settings
 
 
 class LandingPage(View):
