@@ -18,7 +18,7 @@ from django.urls import path, include, re_path
 from core.views import LandingPage, SignUpView, AdminListView, LoginView, SetAdminPermission, DeleteUserView, \
     ModifyUserView, CharityListView, AddAdminView, CharityUpdateView, CharityAddView, CharityDeleteView, \
     UserProfileView, UserProfileModifyView, ChangePasswordView, FormStepOne, load_charity, SaveDonateView, \
-    DonateListView, CollectDonateView, email
+    DonateListView, CollectDonateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,6 +44,5 @@ urlpatterns = [
     path('save-donate', SaveDonateView.as_view(), name="donate"),
     re_path('donate-list/(?P<pk>(\d)+)', DonateListView.as_view(), name='donate_list'),
     re_path('donate-collect/(?P<pk>(\d)+)', CollectDonateView.as_view(), name='collect_donate'),
-    path('email', email, name='send_email'),
 
 ]
